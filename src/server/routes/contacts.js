@@ -1,4 +1,5 @@
-var initRequires = require('.');
+// var initRequires = require('.');
+// Submit PR to remove line 1 from goal provided code
 const DbContacts = require('../../db/contacts')
 const {renderError} = require('../utils')
 
