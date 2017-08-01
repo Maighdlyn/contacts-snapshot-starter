@@ -2,7 +2,7 @@
 
 <h1>Login</h1>
 
-<form method="post" action="/login">
+<form method="post" action="/auth/login">
   <pre class="new-contact-form-errors"></pre>
   <label>
     <span>Username:</span>
@@ -12,6 +12,7 @@
     <span>Password:</span>
     <input type="text" name="password" />
   </label>
+  <input type="submit" value="Login">
 </form>
 
 <%- include partials/footer.ejs %>
