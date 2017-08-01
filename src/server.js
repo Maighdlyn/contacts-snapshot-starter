@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const dbContacts = require('./db/contacts')
+const session = require('express-session')
 const app = express()
 const {renderError} = require('./server/utils')
 const routes = require('./server/routes');
@@ -14,6 +14,11 @@ app.use((request, response, next) => {
   response.locals.query = ''
   next()
 })
+app.use( session({
+  name: 'session',
+  secret: 'you will never know',
+  cookie: { maxAge: 300000 }
+}))
 
 app.use('/', routes)
 

@@ -1,17 +1,22 @@
-const dbUsers = require('../../db/db-users')
+const dbUsers = require('../../db/users')
 const {renderError} = require('../utils')
 
 const router = require('express').Router()
+
+createUserSession = (request, user) => {
+  request.session.user = user
+}
 
 router.get('/login', (request, response) => {
   response.render('login', {warning: ''})
 })
 
 router.post('/login', (request, response) => {
-  dbUsers.getPassword(request.body.username)
+  dbUsers.getUserInfo(request.body.username)
     .then(function(user) {
       if (user.password === request.body.password) {
-        response.redirect(`/`)
+        createUserSession(request, request.body.username)
+        response.redirect('/')
       }
       else response.render('login', {warning: 'Incorrect username or password'})
 
@@ -29,10 +34,18 @@ router.post('/signup', (request, response) => {
 
   if (password.length > 0 && password === request.body.confirmation) {
     dbUsers.createUser(username, password)
-      .then(response.redirect(`/`) )
+      .then( userData => {
+        createUserSession(request, username)
+        response.redirect('/')
+      })
       .catch( error => renderError(error, response, response) )
   }
   else response.render('signup', {warning: 'password confirmation does not match'})
+})
+
+router.get('/logout', (req, res) => {
+  req.session.destroy()
+  res.redirect('/auth/login')
 })
 
 module.exports = router
