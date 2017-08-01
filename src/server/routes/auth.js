@@ -10,7 +10,11 @@ router.get('/login', (request, response) => {
 router.post('/login', (request, response) => {
   dbUsers.getPassword(request.body.username)
     .then(function(user) {
-      if (user.password === request.body.password) return response.redirect(`/`)
+      alert("Alert!")
+      if (user.password === request.body.password) {
+        response.redirect(`/`)
+      }
+      // else alert("Alert!")
 
     })
     .catch( error => renderError(error, response, response) )
