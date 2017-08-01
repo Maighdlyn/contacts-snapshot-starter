@@ -80,21 +80,21 @@ nav .search-form input {
   text-align: right;
 }
 
-.new-contact-form label {
+.form label {
   display: block;
   margin-bottom: 1em;
 }
 
-.new-contact-form label > span {
+.form label > span {
   display: inline-block;
   min-width: 8em;
 }
 
-.new-contact-form input[type="submit"] {
+.form input[type="submit"] {
   margin-top: 1em;
 }
 
-.new-contact-form-errors {
+.form-errors {
   color: red;
   font-weight: bold;
 }

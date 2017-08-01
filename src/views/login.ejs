@@ -2,15 +2,15 @@
 
 <h1>Login</h1>
 
-<form method="post" action="/auth/login">
-  <pre class="new-contact-form-errors"> <%=warning %> </pre>
+<form method="post" action="/auth/login" class="form">
+  <pre class="form-errors"> <%=warning %> </pre>
   <label>
     <span>Username:</span>
     <input type="text" name="username" />
   </label>
   <label>
     <span>Password:</span>
-    <input type="text" name="password" />
+    <input type="password" name="password" />
   </label>
   <input type="submit" value="Login">
 </form>
