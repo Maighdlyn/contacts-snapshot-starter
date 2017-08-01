@@ -13,7 +13,7 @@ router.post('/login', (request, response) => {
       if (user.password === request.body.password) {
         response.redirect(`/`)
       }
-      else response.render('login', {warning: 'Incorrect password'})
+      else response.render('login', {warning: 'Incorrect username or password'})
 
     })
     .catch( error => renderError(error, response, response) )
@@ -24,15 +24,15 @@ router.get('/signup', (request, response) => {
 })
 
 router.post('/signup', (request, response) => {
-  dbUsers.getPassword(request.body.username)
-    .then(function(user) {
-      if (user.password === request.body.password) {
-        response.redirect(`/`)
-      }
-      else response.render('signup', {warning: 'Incorrect password'})
+  const username = request.body.username
+  const password =  request.body.password
 
-    })
-    .catch( error => renderError(error, response, response) )
+  if (password.length > 0 && password === request.body.confirmation) {
+    dbUsers.createUser(username, password)
+      .then(response.redirect(`/`) )
+      .catch( error => renderError(error, response, response) )
+  }
+  else response.render('signup', {warning: 'password confirmation does not match'})
 })
 
 module.exports = router
