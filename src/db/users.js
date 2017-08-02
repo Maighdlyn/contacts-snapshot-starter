@@ -1,7 +1,12 @@
 const db = require('./db')
 
 const getUserInfo = function(username){
-  return db.one(`SELECT id, password FROM users WHERE username=$1`, [username])
+  return db.one(`SELECT * FROM users WHERE username=$1`, [username])
+    .catch(error => error);
+}
+
+const getUserRole = function(id){
+  return db.one(`SELECT role FROM users WHERE id=$1`, [id])
     .catch(error => error);
 }
 
@@ -12,7 +17,7 @@ const createUser = function(username, password){
     VALUES
       ($1, $2)
     RETURNING
-      id, username
+      id
     `,
     [username, password])
     .catch(error => error);
@@ -20,5 +25,6 @@ const createUser = function(username, password){
 
 module.exports = {
   getUserInfo,
+  getUserRole,
   createUser
 }

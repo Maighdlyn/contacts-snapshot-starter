@@ -1,14 +1,14 @@
 const router = require('express').Router();
 const contacts = require('./contacts')
 const auth = require('./auth')
+const admin = require('./admin')
 const dbContacts = require('../../db/contacts');
 const dbUsers = require('../../db/users')
-
 
 router.use('/auth', auth)
 
 const ensureLoggedIn = (request, response, next) => {
-  if (request.session.user) {
+  if (request.session.userid) {
     next()
   } else {
     response.redirect('/auth/login')
@@ -16,6 +16,7 @@ const ensureLoggedIn = (request, response, next) => {
 }
 
 router.use(ensureLoggedIn)
+router.use('/contacts', contacts)
 
 router.get('/', (request, response) => {
   dbContacts.getContacts()
@@ -23,6 +24,18 @@ router.get('/', (request, response) => {
     .catch( err => console.log('err', err) )
 })
 
-router.use('/contacts', contacts)
+const ensureAdmin = (request, response, next) => {
+  dbUsers.getUserRole(request.session.userid)
+    .then( userRole => {
+      if (userRole.role === 'admin') {
+        next()
+      } else {
+        response.status('403').render('not_authorized')
+      }
+    })
+}
+
+router.use(ensureAdmin)
+router.use('/contacts', admin)
 
 module.exports = router;

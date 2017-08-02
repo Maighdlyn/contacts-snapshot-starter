@@ -4,7 +4,7 @@ const {renderError} = require('../utils')
 const router = require('express').Router()
 
 createUserSession = (request, user) => {
-  request.session.user = user
+  request.session.userid = user.id
 }
 
 router.get('/login', (request, response) => {
@@ -15,7 +15,7 @@ router.post('/login', (request, response) => {
   dbUsers.getUserInfo(request.body.username)
     .then(function(user) {
       if (user.password === request.body.password) {
-        createUserSession(request, request.body.username)
+        createUserSession(request, user)
         response.redirect('/')
       }
       else response.render('login', {warning: 'Incorrect username or password'})
@@ -35,7 +35,7 @@ router.post('/signup', (request, response) => {
   if (password.length > 0 && password === request.body.confirmation) {
     dbUsers.createUser(username, password)
       .then( userData => {
-        createUserSession(request, username)
+        createUserSession(request, userData)
         response.redirect('/')
       })
       .catch( error => renderError(error, response, response) )
