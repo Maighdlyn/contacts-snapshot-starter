@@ -10,7 +10,7 @@
         </a>
 
         <% if (role === 'admin') { %>
-          <a class="delete-contact" href="/contacts/<%= contact.id %>/delete" tabindex="-1">X</a>
+          <a class="delete-contact" href="/contacts/delete/<%= contact.id %>" tabindex="-1">X</a>
         <% } %>
       </div>
     <% }) %>
