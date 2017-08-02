@@ -1,7 +1,7 @@
 // var initRequires = require('.');
 // Submit PR to remove line 1 from goal provided code
 const dbContacts = require('../../db/contacts')
-const {renderError} = require('../utils')
+const {renderError} = require('../utils/utils')
 
 const router = require('express').Router()
 

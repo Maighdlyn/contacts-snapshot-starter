@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const app = express()
-const {renderError} = require('./server/utils')
+// const {renderError} = require('./server/utils/utils')
 const routes = require('./server/routes');
 
 app.set('view engine', 'ejs');

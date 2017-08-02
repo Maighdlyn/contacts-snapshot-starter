@@ -1,6 +1,6 @@
 const dbUsers = require('../../db/users')
-const {renderError} = require('../utils')
-
+const {renderError} = require('../utils/utils')
+const {encryptPassword, comparePasswords} = require('../utils/bcrypt')
 const router = require('express').Router()
 
 createUserSession = (request, response, user) => {
@@ -32,14 +32,24 @@ router.post('/signup', (request, response) => {
   const username = request.body.username
   const password =  request.body.password
 
-  if (password.length > 0 && password === request.body.confirmation) {
-    dbUsers.createUser(username, password)
-      .then( userData => {
-        createUserSession(request, response, userData)
-      })
-      .catch( error => renderError(error, response, response) )
-  }
-  else response.render('signup', {warning: 'password confirmation does not match'})
+  encryptPassword(password)
+    .then( (encryptedPassword) => {
+      console.log('encryptedPassword:', encryptedPassword);
+      console.log('typeof:', typeof encryptedPassword);
+      dbUsers.createUser(username, encryptedPassword)
+        .then( userData => {
+          createUserSession(request, response, userData)
+        })
+    })
+
+//   if (password.length > 0 && password === request.body.confirmation) {
+//     dbUsers.createUser(username, password)
+//       .then( userData => {
+//         createUserSession(request, response, userData)
+//       })
+//       .catch( error => renderError(error, response, response) )
+//   }
+//   else response.render('signup', {warning: 'password confirmation does not match'})
 })
 
 router.get('/logout', (req, res) => {
