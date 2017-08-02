@@ -8,7 +8,8 @@ const dbUsers = require('../../db/users')
 router.use('/auth', auth)
 
 const ensureLoggedIn = (request, response, next) => {
-  if (request.session.userid) {
+  if (request.session && request.session.user) {
+    request.user = request.session.user
     next()
   } else {
     response.redirect('/auth/login')
@@ -20,14 +21,19 @@ router.use('/contacts', contacts)
 
 router.get('/', (request, response) => {
   dbContacts.getContacts()
-    .then( contacts => response.render( 'index', { contacts }) )
+    .then( contacts => {
+      response.render( 'index', {
+        contacts,
+        role: request.user.role
+       })
+    })
     .catch( err => console.log('err', err) )
 })
 
 const ensureAdmin = (request, response, next) => {
   dbUsers.getUserRole(request.session.userid)
     .then( userRole => {
-      if (userRole.role === 'admin') {
+      if (request.user.role === 'admin') {
         next()
       } else {
         response.status('403').render('not_authorized')

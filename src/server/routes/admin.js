@@ -16,7 +16,7 @@ router.post('/', (request, response, next) => {
     .catch( error => renderError(error, response, response) )
 })
 
-router.get('/:contactId/delete', (request, response, next) => {
+router.get('/delete/:contactId', (request, response, next) => {
   const contactId = request.params.contactId
   dbContacts.deleteContact(contactId)
     .then(function(contact) {
