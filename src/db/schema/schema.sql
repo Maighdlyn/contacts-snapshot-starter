@@ -10,6 +10,6 @@ CREATE TABLE contacts (
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(20),
-  password VARCHAR(20),
+  password VARCHAR(1000),
   role VARCHAR(20) DEFAULT 'regular'
 );
