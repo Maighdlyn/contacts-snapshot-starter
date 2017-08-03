@@ -1,9 +1,9 @@
-<%- include header.ejs %>
+<%- include partials/header.ejs %>
 
   <h1>New Contact</h1>
 
-  <form method="post" action="/contacts" class="new-contact-form">
-    <pre class="new-contact-form-errors"></pre>
+  <form method="post" action="/contacts" class="new-contact-form form">
+    <pre class="new-contact-form-errors form-errors"></pre>
     <label>
       <span>First name:</span>
       <input type="text" name="first_name" />
@@ -15,4 +15,4 @@
     <input type="submit" value="Add Contact">
   </form>
 
-<%- include footer.ejs %>
+<%- include partials/footer.ejs %>

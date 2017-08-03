@@ -1,0 +1,27 @@
+<%- include partials/header.ejs %>
+
+<h1>Signup</h1>
+
+<form method="post" action="/auth/signup" class="form">
+  <pre class="form-errors"> <%=warning %> </pre>
+  <label>
+    <span>Username:</span>
+    <input type="text" name="username" />
+  </label>
+  <label>
+    <span>Password:</span>
+    <input type="password" name="password" />
+  </label>
+  <label>
+    <span>Confirm PW:</span>
+    <input type="password" name="confirmation" />
+  </label>
+  <input type="submit" value="Signup">
+</form>
+<br>
+<br>
+<br>
+<p>Already have an account?</p>
+<a href="/auth/login"> Login Here</a>
+
+<%- include partials/footer.ejs %>
