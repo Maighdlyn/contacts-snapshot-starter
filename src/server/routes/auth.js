@@ -13,19 +13,13 @@ router.get('/login', (request, response) => {
 })
 
 router.post('/login', (request, response) => {
-
-  // dbUsers.getUserInfo(request.body.username)
-  //   .then( user => {
-  //     comparePasswords()
-  //   })
-  //   comparePasswords()
   dbUsers.getUserInfo(request.body.username)
-    .then(function(user) {
-      if (user.password === request.body.password) {
-        createUserSession(request, response, user)
-      }
-      else response.render('login', {warning: 'Incorrect username or password'})
-
+    .then( user => {
+      comparePasswords(request.body.password, user.password)
+        .then( result => {
+          if (result) createUserSession(request, response, user)
+          else response.render('login', {warning: 'Incorrect username or password'})
+        })
     })
     .catch( error => renderError(error, response, response) )
 })
@@ -38,14 +32,6 @@ router.post('/signup', (request, response) => {
   const username = request.body.username
   const password =  request.body.password
 
-  // encryptPassword(password)
-  //   .then( hash => {
-  //     dbUsers.createUser(username, hash)
-  //       .then( data => {
-  //         console.log(data);
-  //       })
-  //   })
-
   if (password.length > 0 && password === request.body.confirmation) {
     encryptPassword(password)
       .then( (encryptedPassword) => {
@@ -57,25 +43,6 @@ router.post('/signup', (request, response) => {
       .catch( error => renderError(error, response, response) )
   }
   else response.render('signup', {warning: 'password confirmation does not match'})
-
-  // encryptPassword(password)
-  //   .then( (encryptedPassword) => {
-  //     // console.log('encryptedPassword:', encryptedPassword);
-  //     // console.log('typeof:', typeof encryptedPassword);
-  //     dbUsers.createUser(username, encryptedPassword)
-  //       .then( userData => {
-  //         createUserSession(request, response, userData)
-  //       })
-  //   })
-
-  // if (password.length > 0 && password === request.body.confirmation) {
-  //   dbUsers.createUser(username, password)
-  //     .then( userData => {
-  //       createUserSession(request, response, userData)
-  //     })
-  //     .catch( error => renderError(error, response, response) )
-  // }
-  // else response.render('signup', {warning: 'password confirmation does not match'})
 })
 
 router.get('/logout', (req, res) => {
