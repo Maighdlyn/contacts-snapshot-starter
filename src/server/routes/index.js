@@ -39,6 +39,7 @@ const ensureAdmin = (request, response, next) => {
         response.status('403').render('not_authorized')
       }
     })
+    .catch( err => console.log('err', err) )
 }
 
 router.use(ensureAdmin)

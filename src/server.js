@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const Simple = require('connect-pg-simple')(session)
 const routes = require('./server/routes')
+const passport = require('./server/utils/passport')
 const app = express()
 
 app.set('view engine', 'ejs');
@@ -27,6 +28,8 @@ const sessionOptions = {
 }
 
 app.use( session(sessionOptions) )
+app.use( passport.initialize() )
+app.use( passport.session() )
 
 app.use('/', routes)
 
