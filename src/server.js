@@ -5,7 +5,7 @@ const Simple = require('connect-pg-simple')(session)
 const routes = require('./server/routes')
 const app = express()
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 
 app.use(express.static('public'))
